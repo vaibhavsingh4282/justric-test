@@ -1,5 +1,9 @@
 {
   "name": "justric-test",
   "main": "index.js",
-  "compatibility_date": "2025-12-25"
+  "compatibility_date": "2025-12-25",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS"
+  }
 }
