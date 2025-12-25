@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justric AI - Simplifying Legal Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/justric-ai-icon.png" type="image/png">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/justric-ai-icon.png" alt="Justric AI Logo">
+                    <h1>Justric AI</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <div class="currency-selector">
+                    <select id="currencySelect">
+                        <option value="INR">₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="GBP">£ GBP</option>
+                        <option value="JPY">¥ JPY</option>
+                        <option value="CAD">C$ CAD</option>
+                        <option value="AUD">A$ AUD</option>
+                        <option value="SGD">S$ SGD</option>
+                        <option value="AED">د.إ AED</option>
+                        <option value="CHF">CHF CHF</option>
+                    </select>
+                </div>
+                <div class="auth-buttons">
+                    <button id="loginBtn" class="btn btn-outline">Log In</button>
+                    <button id="signupBtn" class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Simplifying Legal Documentation with Intelligent Automation</h1>
+                <p>Generate professional legal documents in seconds with our AI-powered platform. Available in 25+ languages.</p>
+                <div class="hero-buttons">
+                    <button id="getStartedBtn" class="btn btn-primary">Get Started</button>
+                    <button class="btn btn-outline">View Demo</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/legal-document-illustration.png" alt="Legal Document Generation">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful Features</h2>
+                <p>Everything you need to create professional legal documents</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>AI-Powered Generation</h3>
+                    <p>Our advanced AI creates legally sound documents tailored to your needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-Language Support</h3>
+                    <p>Generate documents in 25+ languages with automatic translation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Secure Storage</h3>
+                    <p>All your documents are securely stored and easily accessible.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>Easy Export</h3>
+                    <p>Download as PDF, DOCX, or copy as plain text.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Create professional legal documents in just 3 simple steps</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Choose Document Type</h3>
+                    <p>Select from NDAs, Contracts, Agreements, and more.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Fill Details</h3>
+                    <p>Provide key information and clauses in a simple form.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Generate & Download</h3>
+                    <p>Get your professionally formatted document instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple Pricing</h2>
+                <p>Choose the plan that works best for you</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="price">₹999<span>/month</span></div>
+                    <ul>
+                        <li>10 documents/month</li>
+                        <li>1 language</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="btn btn-outline">Get Started</button>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price">₹1,999<span>/month</span></div>
+                    <ul>
+                        <li>Unlimited documents</li>
+                        <li>All 25+ languages</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="btn btn-primary">Get Started</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">₹19,999<span>/month</span></div>
+                    <ul>
+                        <li>Team workspace</li>
+                        <li>API access</li>
+                        <li>Lawyer review</li>
+                    </ul>
+                    <button class="btn btn-outline">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/justric-ai-icon.png" alt="Justric AI Logo">
+                    <h3>Justric AI</h3>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Templates</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Justric AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- AI Chat Support Widget -->
+    <div id="chatWidget" class="chat-widget hidden">
+        <div class="chat-header">
+            <h3>Justric AI Support</h3>
+            <button id="closeChat" class="close-btn">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <p>Hello! I'm your Justric AI assistant. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your question here...">
+            <button id="sendChat">Send</button>
+        </div>
+    </div>
+    
+    <!-- Chat Toggle Button -->
+    <button id="chatToggle" class="chat-toggle">
+        <span>💬</span>
+    </button>
+</body>
+</html>

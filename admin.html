@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justric AI - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .login-form, .admin-dashboard {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-content {
+            display: none;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .users-list, .documents-list {
+            margin: 30px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .success {
+            color: #27ae60;
+            margin: 10px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>🔒 Justric AI Admin Panel</h1>
+            <p>Manage your application users, documents, and settings</p>
+        </header>
+
+        <!-- Login Form -->
+        <div id="login-section" class="login-form">
+            <h2>Admin Login</h2>
+            <div id="login-error" class="error"></div>
+            <input type="password" id="admin-password" placeholder="Enter admin password" />
+            <button onclick="login()">Login to Admin Panel</button>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="dashboard-section" class="dashboard-content">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('overview')">Overview</div>
+                <div class="tab" onclick="switchTab('users')">Users</div>
+                <div class="tab" onclick="switchTab('documents')">Documents</div>
+                <div class="tab" onclick="switchTab('revenue')">Revenue</div>
+                <div class="tab" onclick="switchTab('orders')">Orders</div>
+                <div class="tab" onclick="switchTab('coupons')">Coupons</div>
+                <div class="tab" onclick="switchTab('banners')">Banners</div>
+                <div class="tab" onclick="switchTab('settings')">Settings</div>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-content active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid" id="stats-container">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="tab-content">
+                <h2>Manage Users</h2>
+                <div class="users-list">
+                    <table id="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Plan Type</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div id="documents-tab" class="tab-content">
+                <h2>Recent Documents</h2>
+                <div class="documents-list">
+                    <table id="documents-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User Email</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Language</th>
+                                <th>Country</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody id="documents-tbody">
+                            <!-- Documents will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Revenue Tab -->
+            <div id="revenue-tab" class="tab-content">
+                <h2>Revenue Analytics</h2>
+                <div class="stats-grid" id="revenue-stats">
+                    <!-- Revenue stats will be loaded here -->
+                </div>
+                <div class="revenue-chart">
+                    <h3>Revenue Trend</h3>
+                    <div id="revenue-chart-container" style="height: 300px; border: 1px solid #ddd; padding: 20px; margin: 20px 0;">
+                        <!-- Chart would be rendered here in a real implementation -->
+                        <p>Revenue chart visualization would appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content">
+                <h2>Order & Subscription Analytics</h2>
+                <div class="stats-grid" id="order-stats">
+                    <!-- Order stats will be loaded here -->
+                </div>
+                <div class="orders-list">
+                    <h3>Recent Subscriptions</h3>
+                    <table id="orders-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- Orders will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Coupons Tab -->
+            <div id="coupons-tab" class="tab-content">
+                <h2>Coupon Management</h2>
+                <div class="form-group">
+                    <label for="coupon-code">Coupon Code</label>
+                    <input type="text" id="coupon-code" placeholder="Enter coupon code" />
+                </div>
+                <div class="form-group">
+                    <label for="coupon-discount">Discount (%)</label>
+                    <input type="number" id="coupon-discount" placeholder="Enter discount percentage" />
+                </div>
+                <div class="form-group">
+                    <label for="coupon-max-uses">Max Uses</label>
+                    <input type="number" id="coupon-max-uses" placeholder="Max number of uses" />
+                </div>
+                <button onclick="createCoupon()">Create Coupon</button>
+                
+                <div class="coupons-list">
+                    <h3>Existing Coupons</h3>
+                    <table id="coupons-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Discount</th>
+                                <th>Type</th>
+                                <th>Used</th>
+                                <th>Max Uses</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coupons-tbody">
+                            <!-- Coupons will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Banners Tab -->
+            <div id="banners-tab" class="tab-content">
+                <h2>Sale Banner Management</h2>
+                <div class="form-group">
+                    <label for="banner-title">Banner Title</label>
+                    <input type="text" id="banner-title" placeholder="Enter banner title" />
+                </div>
+                <div class="form-group">
+                    <label for="banner-message">Banner Message</label>
+                    <input type="text" id="banner-message" placeholder="Enter banner message" />
+                </div>
+                <div class="form-group">
+                    <label for="banner-active">Active Status</label>
+                    <select id="banner-active">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="banner-start-date">Start Date</label>
+                    <input type="date" id="banner-start-date" />
+                </div>
+                <div class="form-group">
+                    <label for="banner-end-date">End Date</label>
+                    <input type="date" id="banner-end-date" />
+                </div>
+                <button onclick="createBanner()">Create Banner</button>
+                
+                <div class="banners-list">
+                    <h3>Existing Banners</h3>
+                    <table id="banners-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Message</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="banners-tbody">
+                            <!-- Banners will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <h2>System Settings</h2>
+                <div class="form-group">
+                    <label for="new-admin-password">Change Admin Password</label>
+                    <input type="password" id="new-admin-password" placeholder="New password" />
+                    <button onclick="changePassword()">Update Password</button>
+                </div>
+                <div class="form-group">
+                    <label for="plan-type">Update User Plan</label>
+                    <select id="user-select">
+                        <option value="">Select a user</option>
+                        <!-- Users will be populated here -->
+                    </select>
+                    <select id="plan-type">
+                        <option value="basic">Basic</option>
+                        <option value="pro">Pro</option>
+                        <option value="enterprise">Enterprise</option>
+                    </select>
+                    <select id="sub-status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <button onclick="updateUserPlan()">Update User Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = null;
+        const API_BASE = 'http://localhost:5000/api';
+
+        // Login function
+        async function login() {
+            const password = document.getElementById('admin-password').value;
+            const errorDiv = document.getElementById('login-error');
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.token;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('dashboard-section').style.display = 'block';
+                    loadDashboardData();
+                } else {
+                    errorDiv.textContent = data.error || 'Login failed';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Connection error. Make sure the backend server is running.';
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            await loadStats();
+            await loadUsers();
+            await loadDocuments();
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const statsContainer = document.getElementById('stats-container');
+                    statsContainer.innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-number">${data.stats.stats.totalUsers}</div>
+                            <div>Total Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${data.stats.stats.totalDocuments}</div>
+                            <div>Total Documents</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">${data.stats.stats.planDistribution.map(p => p.count).reduce((a, b) => a + b, 0)}</div>
+                            <div>Active Subscriptions</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('users-tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.id}</td>
+                            <td>${user.email}</td>
+                            <td>${user.plan_type}</td>
+                            <td>${user.subscription_status}</td>
+                            <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                            <td>
+                                <button onclick="updateUser('${user.id}', '${user.plan_type}', '${user.subscription_status}')" style="padding: 5px 10px; font-size: 12px;">Edit</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    
+                    // Populate user select for settings tab
+                    const userSelect = document.getElementById('user-select');
+                    userSelect.innerHTML = '<option value="">Select a user</option>';
+                    data.users.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = `${user.email} (${user.plan_type})`;
+                        userSelect.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        // Load documents
+        async function loadDocuments() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/documents`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('documents-tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.documents.forEach(doc => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${doc.id}</td>
+                            <td>${doc.profiles?.email || 'N/A'}</td>
+                            <td>${doc.title}</td>
+                            <td>${doc.document_type}</td>
+                            <td>${doc.language}</td>
+                            <td>${doc.country}</td>
+                            <td>${new Date(doc.created_at).toLocaleDateString()}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading documents:', error);
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Update user plan
+        async function updateUser(userId, currentPlan, currentStatus) {
+            const newPlan = prompt('Enter new plan type (basic/pro/enterprise):', currentPlan);
+            const newStatus = prompt('Enter new status (active/inactive/cancelled):', currentStatus);
+            
+            if (newPlan && newStatus) {
+                try {
+                    const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({
+                            plan_type: newPlan,
+                            subscription_status: newStatus
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('User updated successfully!');
+                        loadUsers(); // Refresh the user list
+                    } else {
+                        alert('Error updating user: ' + (data.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    alert('Error updating user: ' + error.message);
+                }
+            }
+        }
+
+        // Update user plan from settings tab
+        async function updateUserPlan() {
+            const userId = document.getElementById('user-select').value;
+            const planType = document.getElementById('plan-type').value;
+            const subStatus = document.getElementById('sub-status').value;
+            
+            if (!userId) {
+                alert('Please select a user');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        plan_type: planType,
+                        subscription_status: subStatus
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('User updated successfully!');
+                    loadUsers(); // Refresh the user list
+                    document.getElementById('user-select').value = '';
+                } else {
+                    alert('Error updating user: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error updating user: ' + error.message);
+            }
+        }
+
+        // Change admin password (placeholder - in real app, you'd have a proper password update endpoint)
+        async function changePassword() {
+            alert('Password change functionality would be implemented in a production environment. For now, update the ADMIN_PASSWORD_HASH in your .env file.');
+        }
+
+        // Load revenue data
+        async function loadRevenueData() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/revenue`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const revenueContainer = document.getElementById('revenue-stats');
+                    revenueContainer.innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-number">$${data.revenue.totalRevenue.toLocaleString()}</div>
+                            <div>Total Revenue</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">$${data.revenue.monthlyRevenue.toLocaleString()}</div>
+                            <div>Monthly Revenue</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">+${data.revenue.revenueGrowth}%</div>
+                            <div>MoM Growth</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">$${data.revenue.lastMonthRevenue.toLocaleString()}</div>
+                            <div>Last Month</div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading revenue data:', error);
+            }
+        }
+
+        // Load order data
+        async function loadOrderData() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/orders`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update order stats
+                    const orderStatsContainer = document.getElementById('order-stats');
+                    let orderStatsHTML = '';
+                    data.orders.orderStats.forEach(stat => {
+                        orderStatsHTML += `
+                            <div class="stat-card">
+                                <div class="stat-number">${stat.count}</div>
+                                <div>${stat.plan_type} - ${stat.subscription_status}</div>
+                            </div>
+                        `;
+                    });
+                    orderStatsContainer.innerHTML = orderStatsHTML;
+                    
+                    // Update recent orders table
+                    const tbody = document.getElementById('orders-tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.orders.recentSubscriptions.forEach(sub => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${sub.email || 'N/A'}</td>
+                            <td>${sub.plan_type}</td>
+                            <td>${sub.subscription_status}</td>
+                            <td>${new Date(sub.created_at).toLocaleDateString()}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading order data:', error);
+            }
+        }
+
+        // Load coupons
+        async function loadCoupons() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/coupons`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('coupons-tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.coupons.forEach(coupon => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${coupon.code}</td>
+                            <td>${coupon.discount}${coupon.type === 'percentage' ? '%' : (coupon.type === 'fixed' ? '$' : '')}</td>
+                            <td>${coupon.type}</td>
+                            <td>${coupon.usageCount}/${coupon.maxUses}</td>
+                            <td>${coupon.maxUses}</td>
+                            <td>${coupon.active ? 'Active' : 'Inactive'}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading coupons:', error);
+            }
+        }
+
+        // Create coupon
+        async function createCoupon() {
+            const code = document.getElementById('coupon-code').value;
+            const discount = document.getElementById('coupon-discount').value;
+            const maxUses = document.getElementById('coupon-max-uses').value;
+            
+            if (!code || !discount || !maxUses) {
+                alert('Please fill in all coupon fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/coupons`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        code,
+                        discount: parseInt(discount),
+                        type: 'percentage', // default
+                        maxUses: parseInt(maxUses)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Coupon created successfully!');
+                    document.getElementById('coupon-code').value = '';
+                    document.getElementById('coupon-discount').value = '';
+                    document.getElementById('coupon-max-uses').value = '';
+                    loadCoupons(); // Refresh the coupons list
+                } else {
+                    alert('Error creating coupon: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error creating coupon: ' + error.message);
+            }
+        }
+
+        // Load banners
+        async function loadBanners() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/banners`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('banners-tbody');
+                    tbody.innerHTML = '';
+                    
+                    data.banners.forEach(banner => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${banner.title}</td>
+                            <td>${banner.message}</td>
+                            <td>${banner.startDate}</td>
+                            <td>${banner.endDate}</td>
+                            <td>${banner.active ? 'Active' : 'Inactive'}</td>
+                            <td>
+                                <button onclick="toggleBanner(${banner.id}, ${!banner.active})" style="padding: 5px 10px; font-size: 12px;">${banner.active ? 'Deactivate' : 'Activate'}</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading banners:', error);
+            }
+        }
+
+        // Create banner
+        async function createBanner() {
+            const title = document.getElementById('banner-title').value;
+            const message = document.getElementById('banner-message').value;
+            const active = document.getElementById('banner-active').value === 'true';
+            const startDate = document.getElementById('banner-start-date').value;
+            const endDate = document.getElementById('banner-end-date').value;
+            
+            if (!title || !message || !startDate || !endDate) {
+                alert('Please fill in all banner fields');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/banners`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        title,
+                        message,
+                        active,
+                        startDate,
+                        endDate
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Banner created successfully!');
+                    document.getElementById('banner-title').value = '';
+                    document.getElementById('banner-message').value = '';
+                    document.getElementById('banner-start-date').value = '';
+                    document.getElementById('banner-end-date').value = '';
+                    document.getElementById('banner-active').value = 'true';
+                    loadBanners(); // Refresh the banners list
+                } else {
+                    alert('Error creating banner: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error creating banner: ' + error.message);
+            }
+        }
+
+        // Toggle banner status
+        async function toggleBanner(bannerId, newStatus) {
+            try {
+                const response = await fetch(`${API_BASE}/admin/banners/${bannerId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        active: newStatus
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Banner status updated successfully!');
+                    loadBanners(); // Refresh the banners list
+                } else {
+                    alert('Error updating banner: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error updating banner: ' + error.message);
+            }
+        }
+
+        // Enhanced loadDashboardData function
+        async function loadDashboardData() {
+            await loadStats();
+            await loadUsers();
+            await loadDocuments();
+            await loadRevenueData();
+            await loadOrderData();
+            await loadCoupons();
+            await loadBanners();
+        }
+
+        // Press Enter to login
+        document.getElementById('admin-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+    </script>
+</body>
+</html>

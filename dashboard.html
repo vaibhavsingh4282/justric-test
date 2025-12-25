@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Justric AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/justric-ai-icon.png" type="image/png">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/justric-ai-icon.png" alt="Justric AI Logo">
+                    <h1>Justric AI</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#documents">Documents</a></li>
+                    <li><a href="#profile">Profile</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <div class="currency-selector">
+                    <select id="currencySelect">
+                        <option value="INR">₹ INR</option>
+                        <option value="USD">$ USD</option>
+                        <option value="EUR">€ EUR</option>
+                        <option value="GBP">£ GBP</option>
+                        <option value="JPY">¥ JPY</option>
+                        <option value="CAD">C$ CAD</option>
+                        <option value="AUD">A$ AUD</option>
+                        <option value="SGD">S$ SGD</option>
+                        <option value="AED">د.إ AED</option>
+                        <option value="CHF">CHF CHF</option>
+                    </select>
+                </div>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <span id="userName">User Name</span>
+                        <div class="subscription-status">
+                            <span id="userPlan">Pro Plan</span>
+                            <span id="usageCount">5/∞ docs</span>
+                        </div>
+                    </div>
+                    <button id="logoutBtn" class="btn btn-outline">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Your Documents</h1>
+                <button id="newDocBtn" class="btn btn-primary">Create New Document</button>
+            </div>
+
+            <!-- Document Form -->
+            <section id="documentForm" class="document-form-section">
+                <div class="form-container">
+                    <h2>Create New Legal Document</h2>
+                    <form id="documentFormElement">
+                        <div class="form-group">
+                            <label for="documentType">Document Type</label>
+                            <select id="documentType" required>
+                                <option value="">Select a document type</option>
+                                <option value="Non-Disclosure Agreement">Non-Disclosure Agreement (NDA)</option>
+                                <option value="Employment Contract">Employment Contract</option>
+                                <option value="Service Agreement">Service Agreement</option>
+                                <option value="Lease Agreement">Lease Agreement</option>
+                                <option value="Partnership Agreement">Partnership Agreement</option>
+                                <option value="Loan Agreement">Loan Agreement</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country" required>
+                                    <option value="">Select country</option>
+                                    <option value="India">India</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="France">France</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select id="language" required>
+                                    <option value="">Select language</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="French">French</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="German">German</option>
+                                    <option value="Japanese">Japanese</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="details">Key Clauses/Details</label>
+                            <textarea id="details" rows="5" placeholder="Enter key clauses or details for your document..." required></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" id="cancelBtn" class="btn btn-outline">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Generate Document</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Generated Document Preview -->
+            <section id="documentPreview" class="document-preview-section hidden">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h2>Generated Document</h2>
+                        <div class="preview-actions">
+                            <button id="editBtn" class="btn btn-outline">Edit</button>
+                            <button id="downloadPdfBtn" class="btn btn-primary">Download PDF</button>
+                            <button id="downloadDocxBtn" class="btn btn-primary">Download DOCX</button>
+                        </div>
+                    </div>
+                    <div class="document-content">
+                        <div id="generatedDocumentContent">
+                            <!-- Generated document content will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documents List -->
+            <section id="documents" class="documents-list-section">
+                <h2>Your Saved Documents</h2>
+                <div class="documents-grid" id="documentsGrid">
+                    <!-- Document cards will be populated here dynamically -->
+                    <div class="document-card">
+                        <h3>Non-Disclosure Agreement - India</h3>
+                        <p class="document-meta">
+                            <span>English</span>
+                            <span>Created: Dec 15, 2023</span>
+                        </p>
+                        <div class="document-actions">
+                            <button class="btn btn-small btn-outline">View</button>
+                            <button class="btn btn-small btn-primary">Download</button>
+                        </div>
+                    </div>
+                    
+                    <div class="document-card">
+                        <h3>Employment Contract - United States</h3>
+                        <p class="document-meta">
+                            <span>English</span>
+                            <span>Created: Dec 10, 2023</span>
+                        </p>
+                        <div class="document-actions">
+                            <button class="btn btn-small btn-outline">View</button>
+                            <button class="btn btn-small btn-primary">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="assets/justric-ai-icon.png" alt="Justric AI Logo">
+                    <h3>Justric AI</h3>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="index.html#pricing">Pricing</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Justric AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- AI Chat Support Widget -->
+    <div id="chatWidget" class="chat-widget hidden">
+        <div class="chat-header">
+            <h3>Justric AI Support</h3>
+            <button id="closeChat" class="close-btn">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <p>Hello! I'm your Justric AI assistant. How can I help you with legal documents today?</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Ask about document creation, legal terms, etc...">
+            <button id="sendChat">Send</button>
+        </div>
+    </div>
+    
+    <!-- Chat Toggle Button -->
+    <button id="chatToggle" class="chat-toggle">
+        <span>💬</span>
+    </button>
+</body>
+</html>
